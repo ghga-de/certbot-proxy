@@ -1,0 +1,19 @@
+#!/bin/bash
+trap 'kill -TERM $(jobs -p);exit' INT
+trap 'kill -TERM $(jobs -p);exit' TERM
+
+if ! compgen -G "/etc/letsencrypt/live/*/fullchain.pem"
+then
+	echo "No certificates found. Running 'certonly'" >&2
+	certbot certonly --webroot -w /var/www/certbot --non-interactive $CERTBOT_ARGS || echo error
+else
+	echo "Certificates found. Not running 'certonly'" >&2
+fi
+
+while true
+do
+	sleep 12h &
+	wait
+	echo "Running 'renew'"
+	certbot renew --non-interactive
+done
