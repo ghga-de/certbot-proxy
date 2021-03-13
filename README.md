@@ -6,7 +6,7 @@ Example compose usage:
 
 ```yaml
 certbot:
-  image: "datameta/certbot-proxy"
+  image: "datameta/certbot-proxy:v1.0.0"
   volumes:
     - etc-le:/etc/letsencrypt      # Persistent volume for certificates
     - www-certbot:/var/www/certbot # Temporary volume for challenge data
